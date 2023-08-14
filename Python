@@ -1,0 +1,16 @@
+import pandas as pd
+
+# Step 4: Data Manipulation with Python
+# Load and manipulate data using Python
+
+# Load data into a pandas DataFrame
+data = pd.read_sql_query("SELECT * FROM sales_data", connection)
+
+# Calculate cumulative sales
+data['cumulative_sales'] = data.groupby('product_id')['sales_amount'].cumsum()
+
+# Create a new calculated field
+data['profit_margin'] = (data['sales_amount'] - data['cost']) / data['sales_amount']
+
+# Export processed data back to SQL
+data.to_sql('processed_sales_data', connection, if_exists='replace', index=False)
